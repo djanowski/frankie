@@ -28,6 +28,7 @@ module Frankie
   
   module EventContext
 
+    gem 'mmangino-facebooker', '>=1.0.2'
     require "facebooker"
     
     def facebook_session
