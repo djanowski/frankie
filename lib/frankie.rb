@@ -132,6 +132,7 @@ module Frankie
       end.merge(
         'time' => lambda{|value| Time.at(value.to_f)},
         'in_canvas' => lambda{|value| !blank?(value)},
+        'in_iframe' => lambda{|value| !blank?(value)},
         'added' => lambda{|value| !blank?(value)},
         'expires' => lambda{|value| blank?(value) ? nil : Time.at(value.to_f)},
         'friends' => lambda{|value| value.split(/,/)}
@@ -153,6 +154,11 @@ module Frankie
     def request_is_for_a_facebook_canvas?
       return false if params["fb_sig_in_canvas"].nil?
       params["fb_sig_in_canvas"] == "1"
+    end
+    
+    def request_is_for_a_facebook_iframe?
+      return false if params["fb_sig_in_iframe"].nil?
+      params["fb_sig_in_iframe"] == "1"
     end
     
     def application_is_installed?
@@ -181,7 +187,7 @@ module Frankie
     def fb_url_for(url)
       url = "" if url == "/"
       url = URI.escape(url)
-      return url if !request_is_for_a_facebook_canvas?
+      return url if !request_is_for_a_facebook_canvas? || !request_is_for_a_facebook_iframe?
       "http://apps.facebook.com/#{ENV['FACEBOOKER_RELATIVE_URL_ROOT']}/#{url}"
     end
     
