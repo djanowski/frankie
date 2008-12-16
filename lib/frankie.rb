@@ -142,6 +142,8 @@ module Frankie
     def do_redirect(*args)
       if request_is_for_a_facebook_canvas?
         fbml_redirect_tag(args)
+      elsif request_is_for_a_facebook_iframe?
+        stop(200, %{<script type="text/javascript">window.parent.location = "#{args.first}";</script>})
       else
         redirect args[0]
       end
