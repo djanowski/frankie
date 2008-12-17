@@ -68,7 +68,7 @@ module Frankie
     end
     
     def secure_with_facebook_params!
-      return unless request_is_for_a_facebook_canvas?
+      return unless request_is_for_a_facebook_canvas? || request_is_for_a_facebook_iframe?
       
       if ['user', 'session_key'].all? {|element| facebook_params[element]}
         @facebook_session = new_facebook_session
