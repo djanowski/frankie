@@ -192,7 +192,20 @@ module Frankie
       return url if !request_is_for_a_facebook_canvas? || !request_is_for_a_facebook_iframe?
       "http://apps.facebook.com/#{ENV['FACEBOOKER_RELATIVE_URL_ROOT']}/#{url}"
     end
-    
+
+    # Useful for when you get a Facebooker::Session::SessionExpired exception.
+    #   
+    #   before do
+    #     begin
+    #       ensure_authenticated_to_facebook
+    #       ensure_application_is_installed_by_facebook_user
+    #     rescue Facebooker::Session::SessionExpired
+    #       reset_facebook_session!
+    #       retry
+    #     end
+    def reset_facebook_session!
+      session[:facebook_session], @facebook_session, @facebook_params = nil
+    end
   end
   
 end
