@@ -164,7 +164,7 @@ module Frankie
     end
     
     def application_is_installed?
-      facebook_params['added']
+      session[:facebook_added] ||= facebook_params['added']
     end
     
     def ensure_authenticated_to_facebook
